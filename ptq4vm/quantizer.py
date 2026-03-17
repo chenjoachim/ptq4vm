@@ -9,9 +9,7 @@ import torch.nn.functional as F
 from torch.nn.parameter import Parameter
 import numpy as np 
 from collections import OrderedDict
-import vim_GEMM
-
-REAL_INT8 = True
+REAL_INT8 = False
 
 class RoundQuant(torch.autograd.Function):
     @staticmethod
@@ -155,9 +153,7 @@ class Q_Linear(nn.Linear):
             x = self.act_func(x)
         
         if self.real_int8:
-            #import pdb; pdb.set_trace()
-            # print(x.shape)
-            # print(self.int_weight.shape)
+            import vim_GEMM
             result = vim_GEMM.vim_GEMM(x.contiguous(), \
                     self.int_weight.contiguous(), \
                     self.act_func.smooth_scale, \

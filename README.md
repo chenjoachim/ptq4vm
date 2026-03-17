@@ -33,6 +33,12 @@ pip install mamba-ssm==1.2.0.post1
 cp -rf mamba-1p1p1/mamba_ssm /opt/conda/lib/python3.10/site-packages
 ```
 
+> **Note (when using alongside Vim):** If you are sharing a virtualenv with the Vim repo, install mamba-ssm from Vim's `mamba-1p1p1` instead of ptq4vm's:
+> ```
+> pip install -e ../Vim/mamba-1p1p1
+> ```
+> Vim's version is a superset of ptq4vm's — the triton layernorm op was renamed from `layernorm.py` to `layer_norm.py` in the newer version, and ptq4vm's `tools/models_mamba.py` has been patched to import from the new path.
+
 5. Install the CUDA kernel
 ```
 python ./cuda_measure/setup_vim_GEMM.py install

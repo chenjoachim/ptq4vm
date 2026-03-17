@@ -83,7 +83,7 @@ def get_args_parser():
     # Dataset parameters
     parser.add_argument('--data-path', default='/datasets01/imagenet_full_size/061417/', type=str,
                         help='dataset path')
-    parser.add_argument('--data-set', default='IMNET', choices=['CIFAR', 'IMNET', 'INAT', 'INAT19'],
+    parser.add_argument('--data-set', default='IMNET', choices=['CIFAR', 'IMNET', 'IMAGENETTE', 'INAT', 'INAT19'],
                         type=str, help='Image Net dataset path')
     parser.add_argument('--inat-category', default='name',
                         choices=['kingdom', 'phylum', 'class', 'order', 'supercategory', 'family', 'genus', 'name'],
@@ -276,7 +276,7 @@ def main(args):
         for name, module in model_without_ddp.named_modules():
             module.name = name  
               
-        if args.qmode == "ptq4vm":  
+        if args.qmode == "ptq4vm" and args.act_scales:
             act_scales = torch.load(args.act_scales)
             from ptq4vm.jlss import JLSS
             JLSS(model_without_ddp, args, data_loader_train, device, act_scales)
